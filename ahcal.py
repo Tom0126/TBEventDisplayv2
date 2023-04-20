@@ -21,7 +21,7 @@ class Display():
 
         self.dataset = prepare_npy(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps)
         self.predicted=None
-
+        self.pid_flag=False
         self.num=entry_end-entry_start
 
     def pid(self,threshold, n_classes, model_path):
@@ -68,6 +68,7 @@ class Display():
             predicted[max_prb < threshold] = -1
 
         self.predicted=predicted
+        self.pid_flag=True
 
     def plot(self,index,save_path):
 
@@ -115,7 +116,7 @@ class Display():
         ax.set_zticks(np.linspace(0, 18, 6))
         ax.set_yticks(np.linspace(0, 40, 5))
 
-        if self.predicted.any() != None:
+        if self.pid_flag:
             label=label_dict.get(self.predicted[index])
             plt.title('ANN Predicts: {}'.format(label))
 
