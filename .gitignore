@@ -1,0 +1,10 @@
+*.DS_Store*
+*log*
+*.csv*
+*.png*
+*.jpeg*
+*.jpg*
+*.h5*
+*.idea*
+test.py
+
