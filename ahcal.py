@@ -5,6 +5,7 @@
 # @Mail    : xdmyssy@gmail.com
 # @File    : ahcal.py
 # @Software: PyCharm
+import os.path
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,13 +17,15 @@ class Display():
     '''
     for pid datasets, .npy only.
     '''
-    def __init__(self,file_path, tree_name, entry_start, entry_end, exps):
+    def __init__(self,file_path, tree_name, exps, entry_start=None, entry_end=None, random_num=None):
         self.file_path=file_path
 
         self.dataset = prepare_npy(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps)
         self.predicted=None
         self.pid_flag=False
-        self.num=entry_end-entry_start
+        num_data = len(self.dataset)
+        self.choices=np.arange(num_data) if random_num==None else np.random.choice(np.arange(num_data), random_num,replace=False)
+        self.entry_start = 0 if entry_end == None else entry_start
 
     def pid(self,threshold, n_classes, model_path):
         '''
@@ -70,7 +73,7 @@ class Display():
         self.predicted=predicted
         self.pid_flag=True
 
-    def plot(self,index,save_path):
+    def plot(self,index,save_dir):
 
         label_dict={
             0:'mu+',
@@ -120,27 +123,32 @@ class Display():
             label=label_dict.get(self.predicted[index])
             plt.title('ANN Predicts: {}'.format(label))
 
-        plt.savefig(save_path.format(index))
+        if not os.path.exists(save_dir):
+            os.mkdir(save_dir)
+        save_path=os.path.join(save_dir, '{}.png'.format(self.entry_start+index))
+
+        plt.savefig(save_path)
         plt.close(fig)
 
-    def plot_all(self,save_path):
-        for index in range(self.num):
-            self.plot(index,save_path)
+    def plot_all(self,save_dir):
+        for index in self.choices:
+            self.plot(index,save_dir)
 
 
 if __name__ == '__main__':
     file_path='/hpcfs/cepc/higgsgpu/siyuansong/PID/data/AHCAL/HCAL_alone/pi+_V1/40GeV/AHCAL_Run58_20221021_184832.root'
     tree_name='Calib_Hit'
-    entry_start=0
-    entry_end=10
+    entry_start=100
+    entry_end=110
+    random_num=None
     exps = ['Hit_X', 'Hit_Y', 'Hit_Z', 'Hit_Energy']
-    save_path='Result/{}.png'
+    save_dir='Result'
 
     threshold=0.9
     n_classes=4
     model_path='/hpcfs/cepc/higgsgpu/siyuansong/TBEventDisplayv2/ANN/net.pth'
 
-    display=Display(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps)
+    display=Display(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps, random_num=random_num)
     display.pid(threshold=threshold,n_classes=n_classes,model_path=model_path)
-    display.plot_all(save_path=save_path)
+    display.plot_all(save_dir=save_dir)
     pass
