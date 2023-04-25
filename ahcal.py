@@ -40,9 +40,9 @@ class Display():
            '''
 
         id_dict = {
-            0: 'mu+',
-            1: 'e+',
-            2: 'pi+',
+            0: 'mu',
+            1: 'e',
+            2: 'pion',
             3: 'noise',
             -1: 'uncertain'
         }
@@ -77,9 +77,9 @@ class Display():
     def plot(self,index,save_dir):
 
         label_dict={
-            0:'mu+',
-            1:'e+',
-            2:'pi+',
+            0:'mu',
+            1:'e',
+            2:'pion',
             3:'noise',
             -1:'uncertain'
 
