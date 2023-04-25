@@ -52,7 +52,7 @@ def prepare_npy(file_path, tree_name,entry_start, entry_end, exps):
 
         x_ = np.around((x[i] + 342.5491) / 40.29964).astype(int)
         y_ = np.around((y[i] + 343.05494) / 40.29964).astype(int)
-        z_ = ((z[i]) / 26).astype(int)
+        z_ = ((z[i]) / 300).astype(int)
         num_events_ = len(energies_)
         assert num_events_ == len(x_)
         assert num_events_ == len(y_)
