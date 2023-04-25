@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from ANN.net import LeNet_bn as lenet
 from Data.read_root import prepare_npy
 import torch
+import argparse
 
 class Display():
     '''
@@ -136,19 +137,39 @@ class Display():
 
 
 if __name__ == '__main__':
-    file_path='/hpcfs/cepc/higgsgpu/siyuansong/PID/data/AHCAL/HCAL_alone/pi+_V1/40GeV/AHCAL_Run58_20221021_184832.root'
-    tree_name='Calib_Hit'
-    entry_start=100
-    entry_end=110
-    random_num=None
-    exps = ['Hit_X', 'Hit_Y', 'Hit_Z', 'Hit_Energy']
-    save_dir='Result'
+    parser = argparse.ArgumentParser()
+    # base setting
+    parser.add_argument("--tree_name",default='Calib_Hit', type=str, help="the tree name to read")
+    parser.add_argument("--file_path", type=str, help="root file.")
+    parser.add_argument("--save_dir", type=str, help="the directory to save pictures.")
+    parser.add_argument("--entry_start", type=int, help="entry start.")
+    parser.add_argument("--entry_end", type=int, help="entry end.")
+    parser.add_argument("--random_num", type=int,default=None, help="random picked entry to event display.")
+    parser.add_argument("--n_classes", type=int, default=4, help="class numbers.")
+    parser.add_argument("--pid", type=bool, help="if use ANN PID tool to predict the incident particle.")
+    parser.add_argument("--threshold", type=float,default=0.9, help="ANN threshold.")
+    args = parser.parse_args()
 
-    threshold=0.9
-    n_classes=4
-    model_path='/hpcfs/cepc/higgsgpu/siyuansong/TBEventDisplayv2/ANN/net.pth'
+    file_path=args.file_path
+    tree_name=args.tree_name
+    entry_start=args.entry_start
+    entry_end=args.entry_end
+    random_num=args.random_num
+
+
+    exps = ['Hit_X', 'Hit_Y', 'Hit_Z', 'Hit_Energy']
+    save_dir=args.save_dir
+
+
+    threshold=args.threshold
+    n_classes=args.n_classes
+
+    model_path='./ANN/net.pth'
 
     display=Display(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps, random_num=random_num)
-    display.pid(threshold=threshold,n_classes=n_classes,model_path=model_path)
+
+    if args.pid:
+        display.pid(threshold=threshold,n_classes=n_classes,model_path=model_path)
+
     display.plot_all(save_dir=save_dir)
     pass
