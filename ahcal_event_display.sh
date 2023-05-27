@@ -3,11 +3,11 @@
 source /mnt2/SJTU/Song/conda_setup/conda.env
 conda activate cepc_tb
 
-file_path=/home/songsy/TBEventDisplayv2/data/AHCAL/PublicAna/2023/BeamAna/result/PS/pi-/10GeV/AHCAL_Run112_20230527_064741.root
+file_path=/home/songsy/TBEventDisplayv2/data/root_file/run112_0_0.root
 save_dir=./Result
 entry_start=0
 entry_end=None
-random_num=1000
+random_num=100
 
 pid=True
 
