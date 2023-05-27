@@ -7,7 +7,7 @@ file_path=/home/songsy/TBEventDisplayv2/data/AHCAL/PublicAna/2023/BeamAna/result
 save_dir=./Result
 entry_start=0
 entry_end=None
-random_num=100
+random_num=1000
 
 pid=True
 
