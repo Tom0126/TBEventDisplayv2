@@ -36,8 +36,8 @@ def split_root_based_on_ckv(file_path, save_path, ckv_0_signal, ckv_1_signal):
 
 if __name__ == '__main__':
 
-    split_root_based_on_ckv(file_path='/home/songsy/TBEventDisplayv2/data/AHCAL/PublicAna/2023/BeamAna/result/PS/pi-/10GeV/AHCAL_Run112_20230527_064741.root',
-                            save_path='/home/songsy/TBEventDisplayv2/data/root_file/run112_0_0.root',
+    split_root_based_on_ckv(file_path='/home/songsy/TBEventDisplayv2/data/AHCAL/PublicAna/2023/BeamAna/result/PS/pi-/5GeV/AHCAL_Run123_20230527_203428.root',
+                            save_path='/home/songsy/TBEventDisplayv2/data/root_file/run123_0_0.root',
                             ckv_0_signal=0,
                             ckv_1_signal=0)
     pass
