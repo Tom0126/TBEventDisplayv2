@@ -110,8 +110,8 @@ class Display():
 
             surf2 = ax.plot_surface(x2, y2, z2, alpha=0.8, linewidth=0.1,
                                     antialiased=False, rstride=1, cstride=1,
-                                    color=((1 - abs(event[x_index, z_index, y_index] / max_ed)) ** 200
-                                           , (1 - abs(event[x_index, z_index, y_index] / max_ed)) ** 200
+                                    color=((1 - abs(event[x_index, z_index, y_index] / max_ed)) ** 100
+                                           , (1 - abs(event[x_index, z_index, y_index] / max_ed)) ** 100
                                            , 1)
                                 )
         ax.view_init(30,-40)
