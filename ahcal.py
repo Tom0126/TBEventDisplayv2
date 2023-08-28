@@ -77,11 +77,11 @@ class Display():
     def plot(self,index,save_dir):
 
         label_dict={
-            0:'muon',
-            1:'electron',
-            2:'pion',
-            3:'noise',
-            -1:'uncertain'
+            0:'Muon',
+            1:'Electron',
+            2:'Pion',
+            3:'Noise',
+            -1:'Uncertain'
 
         }
         event=self.dataset[index]
@@ -123,17 +123,17 @@ class Display():
         ax.set_ylabel('Z [layer]')
         ax.set_zlabel('Y [cm]')
 
+        # ax.text2D(0.05, 0.95, "CEPC AHCAL", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
+        #           fontweight='bold', )
+        # ax.text2D(0.05, 0.9, "Electronics noise sample".format(label_dict.get(self.predicted[index])), transform=ax.transAxes, fontsize=10,)
+        # ax.text2D(0.05, 0.85, "E_dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
         ax.text2D(0.05, 0.95, "CEPC AHCAL", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
                   fontweight='bold', )
-        ax.text2D(0.05, 0.9, "Electronics noise sample".format(label_dict.get(self.predicted[index])), transform=ax.transAxes, fontsize=10,)
-        ax.text2D(0.05, 0.85, "E_dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
-        # ax.text2D(0.05, 0.95, "Test Beam", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
-        #           fontweight='bold', )
-        # ax.text2D(0.05, 0.9, "AHCAL E_Dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
-        # if self.pid_flag:
-        #     label=label_dict.get(self.predicted[index])
-        #     ax.text2D(0.05, 0.85, 'ANN Predicts: {}'.format(label), transform=ax.transAxes,
-        #               fontsize=10, )
+        ax.text2D(0.05, 0.9, "E_Dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
+        if self.pid_flag:
+            label=label_dict.get(self.predicted[index])
+            ax.text2D(0.05, 0.85, '{} Event'.format(label), transform=ax.transAxes,
+                      fontsize=10, )
 
 
         if not os.path.exists(save_dir):
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     parser.add_argument("--entry_end", type=int, default=None, help="entry end.")
     parser.add_argument("--random_num", type=int,default=None, help="random picked entry to event display.")
     parser.add_argument("--n_classes", type=int, default=4, help="class numbers.")
-    parser.add_argument("--pid", type=bool, help="if use ANN PID tool to predict the incident particle.")
+    parser.add_argument("--pid", type=int, help="if use ANN PID tool to predict the incident particle.")
     parser.add_argument("--threshold", type=float,default=0.9, help="ANN threshold.")
     args = parser.parse_args()
 
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
     display=Display(file_path=file_path,tree_name=tree_name,entry_start=entry_start,entry_end=entry_end,exps=exps, random_num=random_num)
 
-    if args.pid:
+    if bool(args.pid):
         display.pid(threshold=threshold,n_classes=n_classes,model_path=model_path)
 
     display.plot_all(save_dir=save_dir)
