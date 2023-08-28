@@ -1,14 +1,14 @@
 #!/bin/bash
 
-source /mnt2/SJTU/Song/conda_setup/conda.env
-conda activate cepc_tb
+source /hpcfs/cepc/higgsgpu/siyuansong/conda.env
+conda activate pytorch
 
-file_path=/home/songsy/TBEventDisplayv2/data/root_file/run112_0_0.root
+file_path=/hpcfs/cepc/higgsgpu/siyuansong/PID/data/SPS_2023/mu-/normal/AHCAL_Run27_20230426_015134.root
 save_dir=./Result
-entry_start=0
-entry_end=None
-random_num=100
+entry_start=890
+entry_end=891
+random_num=1
 
 pid=True
 
-python ahcal.py --file_path $file_path --save_dir $save_dir --entry_start $entry_start  --pid $pid --random_num $random_num
+python ahcal.py --file_path $file_path --save_dir $save_dir --entry_start $entry_start  --pid $pid --random_num $random_num --entry_end $entry_end

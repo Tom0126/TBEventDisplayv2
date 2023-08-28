@@ -16,7 +16,7 @@ import argparse
 
 class Display():
     '''
-    for pid datasets, .npy only.
+
     '''
     def __init__(self,file_path, tree_name, exps, entry_start=None, entry_end=None, random_num=None):
         self.file_path=file_path
@@ -77,8 +77,8 @@ class Display():
     def plot(self,index,save_dir):
 
         label_dict={
-            0:'mu',
-            1:'e',
+            0:'muon',
+            1:'electron',
             2:'pion',
             3:'noise',
             -1:'uncertain'
@@ -116,16 +116,24 @@ class Display():
                                 )
         ax.view_init(30,-40)
         ax.grid(False)
-        ax.set_xticks(np.linspace(0,18,6))
-        ax.set_zticks(np.linspace(0, 18, 6))
+        ax.set_xticks(np.linspace(0,18,5), 4*np.linspace(0,18,5).astype(np.int8))
+        ax.set_zticks(np.linspace(0, 18, 5), 4*np.linspace(0,18,5).astype(np.int8))
         ax.set_yticks(np.linspace(0, 40, 5))
-        ax.text2D(0.05, 0.95, "Test Beam", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
+        ax.set_xlabel('X [cm]')
+        ax.set_ylabel('Z [layer]')
+        ax.set_zlabel('Y [cm]')
+
+        ax.text2D(0.05, 0.95, "CEPC AHCAL", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
                   fontweight='bold', )
-        ax.text2D(0.05, 0.9, "AHCAL E_Dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
-        if self.pid_flag:
-            label=label_dict.get(self.predicted[index])
-            ax.text2D(0.05, 0.85, 'ANN Predicts: {}'.format(label), transform=ax.transAxes,
-                      fontsize=10, )
+        ax.text2D(0.05, 0.9, "Electronics noise sample".format(label_dict.get(self.predicted[index])), transform=ax.transAxes, fontsize=10,)
+        ax.text2D(0.05, 0.85, "E_dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
+        # ax.text2D(0.05, 0.95, "Test Beam", transform=ax.transAxes, fontsize=15, fontstyle='oblique',
+        #           fontweight='bold', )
+        # ax.text2D(0.05, 0.9, "AHCAL E_Dep @{} MeV".format(round(np.sum(event))), transform=ax.transAxes, fontsize=10,)
+        # if self.pid_flag:
+        #     label=label_dict.get(self.predicted[index])
+        #     ax.text2D(0.05, 0.85, 'ANN Predicts: {}'.format(label), transform=ax.transAxes,
+        #               fontsize=10, )
 
 
         if not os.path.exists(save_dir):
