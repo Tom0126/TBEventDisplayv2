@@ -6,8 +6,8 @@ conda activate pytorch
 file_path=/hpcfs/cepc/higgsgpu/siyuansong/PID/data/SPS_2023/mu-/normal/AHCAL_Run27_20230426_015134.root
 save_dir=./Result
 entry_start=800
-entry_end=900
-random_num=10
+entry_end=801
+random_num=1
 
 pid=0
 

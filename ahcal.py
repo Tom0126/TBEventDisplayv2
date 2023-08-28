@@ -25,7 +25,8 @@ class Display():
         self.predicted=None
         self.pid_flag=False
         num_data = len(self.dataset)
-        self.choices=np.arange(num_data) if random_num==None else np.random.choice(np.arange(num_data), random_num,replace=False)
+        self.choices=np.arange(num_data) if (random_num==None or random_num > num_data)  else np.random.choice(np.arange(num_data), random_num,
+                                                                                   replace=False)
         self.entry_start = 0 if entry_end == None else entry_start
 
     def pid(self,threshold, n_classes, model_path):
@@ -90,7 +91,7 @@ class Display():
 
         fig=plt.figure(figsize=(6, 5), dpi=100)
         ax = fig.add_subplot(projection='3d')
-        plt.gca().set_box_aspect((1, 2, 1))
+        plt.gca().set_box_aspect((1, 1, 1))
 
         tags=np.where(event!=0)
 
@@ -114,7 +115,7 @@ class Display():
                                            , (1 - abs(event[x_index, z_index, y_index] / max_ed)) ** 100
                                            , 1)
                                 )
-        ax.view_init(30,-40)
+        ax.view_init(-30,-40, 180,vertical_axis='y')
         ax.grid(False)
         ax.set_xticks(np.linspace(0,18,5), 4*np.linspace(0,18,5).astype(np.int8))
         ax.set_zticks(np.linspace(0, 18, 5), 4*np.linspace(0,18,5).astype(np.int8))
